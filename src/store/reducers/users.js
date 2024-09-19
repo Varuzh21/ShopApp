@@ -5,6 +5,7 @@ import { postUserRequest,} from '../actions/users'
 const initialState = {
     user: [],
     userToken: null,
+    error: ''
 }
 
 export const postUserReducer = createReducer(initialState, (builder) =>{
@@ -14,6 +15,7 @@ export const postUserReducer = createReducer(initialState, (builder) =>{
         state.userToken = action.payload.data.token
     })
     builder.addCase(postUserRequest.rejected, (state, action) =>{
-        console.log(action.payload, "reducer error");
+        console.log(action.payload.message, "reducer error");
+        state.error = action.payload.message;
     })
 })

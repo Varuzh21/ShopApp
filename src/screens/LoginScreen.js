@@ -4,6 +4,7 @@ import Input from '../components/Input';
 import Button from '../components/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { postUserRequest } from '../store/actions/users';
+import { postUserReducer } from '../store/reducers/users';
 import { useNavigation } from '@react-navigation/native';
 import Logo from '../assets/icons/logo.svg';
 
@@ -22,9 +23,32 @@ export default function Login() {
     });
   };
 
-  const handleLogin = async() => {
-    await dispatch(postUserRequest(form));
-    navigation.navigate('MainTabs', { screen: 'Home' });
+  const errorMessage = useSelector((state) => state.postUserReducer.error);
+
+  const handleLogin = async () => {
+    const { username, password } = form;
+
+    if (!username || !password) {
+      Alert.alert("Validation Error", "Username and password are required.");
+      return;
+    }
+
+    if (!username) {
+      Alert.alert("Validation Error", "Please enter a valid email address.");
+      return;
+    }
+
+    if (!password) {
+      Alert.alert("Validation Error", "Password must be at least 6 characters long.");
+      return;
+    }
+
+    try {
+      await dispatch(postUserRequest(form));
+      navigation.navigate('MainTabs', { screen: 'Home' });
+    } catch (error) {
+      Alert.alert("Login Error", errorMessage || "An error occurred during login.");
+    }
   };
 
   return (
@@ -43,14 +67,16 @@ export default function Login() {
           placeholder="Your Email"
           type={false}
           value={form.username}
-          iconSource={false}
+          iconSource="mail"
+          iconStyle={styles.iconInput}
           onChangeText={(value) => handleInputChange('username', value)}
         />
         <Input
           placeholder="Password"
           type={true}
           value={form.password}
-          iconSource={true}
+          iconSource="password"
+          secureTextEntry={true}
           onChangeText={(value) => handleInputChange('password', value)}
         />
         <Button 
@@ -135,7 +161,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     marginBottom: 16,
   },
-  text :{
+  text: {
     fontFamily: "Poppins",
     fontSize: 14,
     fontWeight: "700",
@@ -181,11 +207,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingTop: 8,
   },
-  register:{
+  register: {
     fontFamily: "Poppins",
     fontSize: 12,
     fontWeight: "700",
     color: "rgb(92, 97, 244)",
     textAlign: "center",
-  }
+  },
 });
