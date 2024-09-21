@@ -4,15 +4,14 @@ import { postUserRequest,} from '../actions/users'
 
 const initialState = {
     user: [],
-    userToken: null,
+    userToken: '',
     error: ''
 }
 
 export const postUserReducer = createReducer(initialState, (builder) =>{
     builder.addCase(postUserRequest.fulfilled, (state, action) =>{
-        console.log(action.payload.data, "reducer");
-        state.user = action.payload.data,
-        state.userToken = action.payload.data.token
+        state.user = action.payload,
+        state.userToken = action.payload.token
     })
     builder.addCase(postUserRequest.rejected, (state, action) =>{
         console.log(action.payload.message, "reducer error");

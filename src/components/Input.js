@@ -10,7 +10,8 @@ export default function Input({
   containerStyle,
   iconStyle,
   secureTextEntry,
-  onChangeText
+  onChangeText,
+  errorMessage
 }) {
   const [isFocused, setIsFocused] = useState(false);
 

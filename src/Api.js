@@ -6,10 +6,8 @@ const api = axios.create({
 
 
 class Api {
-    static async postUser(form) {
-        console.log(form, "API call");
-        
-        return await api.post("user/login", form);
+    static postUser(form) {
+        return api.post("user/login", form);
     }
 }
 

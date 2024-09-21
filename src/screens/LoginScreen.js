@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { useCallback, useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { postUserRequest } from '../store/actions/users';
-import { postUserReducer } from '../store/reducers/users';
 import { useNavigation } from '@react-navigation/native';
 import Logo from '../assets/icons/logo.svg';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -22,34 +22,18 @@ export default function Login() {
       [field]: value.nativeEvent ? value.nativeEvent.text : value,
     });
   };
-
+  const userToken = useSelector((state) => state.postUserReducer.userToken);
   const errorMessage = useSelector((state) => state.postUserReducer.error);
 
-  const handleLogin = async () => {
-    const { username, password } = form;
-
-    if (!username || !password) {
-      Alert.alert("Validation Error", "Username and password are required.");
-      return;
-    }
-
-    if (!username) {
-      Alert.alert("Validation Error", "Please enter a valid email address.");
-      return;
-    }
-
-    if (!password) {
-      Alert.alert("Validation Error", "Password must be at least 6 characters long.");
-      return;
-    }
-
-    try {
-      await dispatch(postUserRequest(form));
+  const handleLogin = useCallback(async () => {
+    await dispatch(postUserRequest(form));
+    if (userToken) {
+      await AsyncStorage.setItem("token", userToken);
       navigation.navigate('MainTabs', { screen: 'Home' });
-    } catch (error) {
-      Alert.alert("Login Error", errorMessage || "An error occurred during login.");
+    } else {
+      console.log("Login Error", errorMessage || "An error occurred during login.");
     }
-  };
+  }, [errorMessage, form, userToken])
 
   return (
     <View style={styles.container}>
@@ -79,7 +63,7 @@ export default function Login() {
           secureTextEntry={true}
           onChangeText={(value) => handleInputChange('password', value)}
         />
-        <Button 
+        <Button
           title="Sign In"
           iconSource={null}
           onClickButton={handleLogin}
