@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Button from '../components/Button';
+import { AuthContext } from '../context/AuthContext';
 
-export default function AccountScreen({ onLogout }) {
+export default function AccountScreen() {
+  const { logout } = useContext(AuthContext);
 
   return (
     <View style={styles.container}>
@@ -13,7 +15,7 @@ export default function AccountScreen({ onLogout }) {
         <Button
           title="Logout"
           textStyle={styles.text}
-          onClickButton={onLogout}
+          onClickButton={() => {logout()}}
         />
       </View>
     </View>

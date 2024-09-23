@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { useSelector } from 'react-redux';
 import Logo from '../assets/icons/logo.svg';
+import { AuthContext } from '../context/AuthContext';
 
-export default function Login({ onLogin }) {
+export default function Login() {
+  const {login} = useContext(AuthContext);
   const [form, setForm] = useState({
     username: '',
     password: '',
@@ -55,7 +57,7 @@ export default function Login({ onLogin }) {
         <Button
           title="Sign In"
           iconSource={null}
-          onClickButton={() => onLogin(form)}
+          onClickButton={() => {login(form)}}
         />
       </View>
 

@@ -11,7 +11,7 @@ import Icon2 from 'react-native-vector-icons/AntDesign';
 
 const Tab = createBottomTabNavigator();
 
-export default function TabNavigator({ onLogout }) {
+export default function TabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -79,7 +79,7 @@ export default function TabNavigator({ onLogout }) {
       />
       <Tab.Screen
         name="Account"
-        children={() => <AccountScreen onLogout={onLogout} />}
+        component={AccountScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             focused ? <Icon name="user" size={24} color="rgb(64, 191, 255)" /> : <Icon name="user" size={24} color="rgb(144, 152, 177)" />
