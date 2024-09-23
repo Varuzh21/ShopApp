@@ -1,51 +1,58 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
-import Password from '../assets/icons/password.svg';
-import Mail from '../assets/icons/mail.svg';
+import { View, TextInput, Text, StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
 
 export default function Input({
+  value,
   iconSource,
-  placeholder,
+  placeholder = "Enter text",
   inputStyle,
   containerStyle,
   iconStyle,
   secureTextEntry,
   onChangeText,
-  errorMessage
+  errorMessage,
+  isError = false,
 }) {
   const [isFocused, setIsFocused] = useState(false);
 
   const handleFocus = () => setIsFocused(true);
   const handleBlur = () => setIsFocused(false);
 
-  const Icon = iconSource === 'password' ? Password : Mail;
-
   return (
-    <View style={[
-      styles.container, 
-      containerStyle, 
-      isFocused && styles.containerFocused
-    ]}>
-      <Icon
-        width={20}
-        height={20}
-        style={[
-          styles.icon,
-          iconStyle,
-          isFocused && styles.iconFocused
-        ]}
-        fill={isFocused? '#64B5F6' : 'rgb(150, 155, 170)'}
-      />
-      <TextInput
-        secureTextEntry={secureTextEntry} 
-        style={[styles.input, inputStyle]}
-        placeholder={placeholder || "Enter text"}
-        placeholderTextColor="rgb(150, 155, 170)"
-        onChangeText={onChangeText}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-      />
-    </View>
+    <>
+      <View style={[
+        styles.container,
+        containerStyle,
+        isFocused && !isError && styles.containerFocused,
+        isError && styles.containerError,
+      ]}>
+        {iconSource && (
+          <Icon
+            name={iconSource}
+            size={20}
+            style={[
+              styles.icon,
+              iconStyle,
+              isFocused && !isError && styles.iconFocused,
+              isError && styles.iconError,
+            ]}
+            color={isError ? 'red' : (isFocused ? '#64B5F6' : 'rgb(150, 155, 170)')}
+          />
+        )}
+        <TextInput
+          value={value}
+          secureTextEntry={secureTextEntry}
+          style={[styles.input, inputStyle]}
+          placeholder={placeholder}
+          placeholderTextColor="rgb(150, 155, 170)"
+          onChangeText={onChangeText}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+        />
+      </View>
+      {errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
+    </>
   );
 }
 
@@ -64,20 +71,29 @@ const styles = StyleSheet.create({
   },
   containerFocused: {
     borderColor: 'rgb(64, 191, 255)',
-    backgroundColor: 'rgb(255, 255, 255)',
+  },
+  containerError: {
+    borderColor: 'rgb(251, 113, 129)',
   },
   icon: {
-    width: 20,
-    height: 20,
     marginHorizontal: 10,
   },
   iconFocused: {
-    fill: '#64B5F6' 
+    color: '#64B5F6',
+  },
+  iconError: {
+    color: 'rgb(251, 113, 129)',
   },
   input: {
     flex: 1,
     fontSize: 12,
     fontFamily: 'Poppins',
     color: "black",
+  },
+  errorText: {
+    fontFamily: "Poppins",
+    fontSize: 12,
+    fontWeight: "700",
+    color: 'rgb(251, 113, 129)',
   },
 });

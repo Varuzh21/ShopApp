@@ -1,16 +1,11 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Input from '../components/Input';
 import Button from '../components/Button';
-import { useDispatch, useSelector } from 'react-redux';
-import { postUserRequest } from '../store/actions/users';
-import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 import Logo from '../assets/icons/logo.svg';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Login() {
-  const dispatch = useDispatch();
-  const navigation = useNavigation();
+export default function Login({ onLogin }) {
   const [form, setForm] = useState({
     username: '',
     password: '',
@@ -22,18 +17,8 @@ export default function Login() {
       [field]: value.nativeEvent ? value.nativeEvent.text : value,
     });
   };
-  const userToken = useSelector((state) => state.postUserReducer.userToken);
+  
   const errorMessage = useSelector((state) => state.postUserReducer.error);
-
-  const handleLogin = useCallback(async () => {
-    await dispatch(postUserRequest(form));
-    if (userToken) {
-      await AsyncStorage.setItem("token", userToken);
-      navigation.navigate('MainTabs', { screen: 'Home' });
-    } else {
-      console.log("Login Error", errorMessage || "An error occurred during login.");
-    }
-  }, [errorMessage, form, userToken])
 
   return (
     <View style={styles.container}>
@@ -53,20 +38,24 @@ export default function Login() {
           value={form.username}
           iconSource="mail"
           iconStyle={styles.iconInput}
+          errorMessage={errorMessage}
+          isError={!!errorMessage}
           onChangeText={(value) => handleInputChange('username', value)}
         />
         <Input
           placeholder="Password"
           type={true}
           value={form.password}
-          iconSource="password"
+          iconSource="lock"
           secureTextEntry={true}
+          errorMessage={errorMessage}
+          isError={!!errorMessage}
           onChangeText={(value) => handleInputChange('password', value)}
         />
         <Button
           title="Sign In"
           iconSource={null}
-          onClickButton={handleLogin}
+          onClickButton={() => onLogin(form)}
         />
       </View>
 
@@ -163,8 +152,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
     borderColor: 'rgb(235, 240, 255)',
-    justifyContent: 'center',
-    alignItems: 'center',
     elevation: 20,
     shadowColor: 'rgba(64, 191, 255, 0.24)',
   },

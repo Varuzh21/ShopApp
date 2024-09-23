@@ -7,7 +7,7 @@ const api = axios.create({
 
 class Api {
     static postUser(form) {
-        return api.post("user/login", form);
+        return api.post("user/login", {...form});
     }
 }
 
