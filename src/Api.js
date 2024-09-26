@@ -7,7 +7,13 @@ const api = axios.create({
 
 class Api {
     static postUser(form) {
-        return api.post("user/login", {...form});
+        return api.post("user/login", form);
+    }
+    static getCategories() {
+        return api.get("products/categories")
+    }
+    static getProducts() {
+        return api.get("products/category/mens-shoes")
     }
 }
 

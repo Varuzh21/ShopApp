@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { postUserRequest } from '../store/actions/users';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -13,13 +13,13 @@ export const AuthProvider = ({ children }) => {
 
     const token = useSelector((state) => state.postUserReducer.userToken)
 
-    const login = (form) => {
+    const login = useCallback((form) => {
         setIsLoading(true);
         dispatch(postUserRequest(form));
         setUserToken(token);
         AsyncStorage.setItem("userToken", JSON.stringify(userToken));
         setIsLoading(false);
-    }
+    }, []) 
 
     const logout = () => {
         setIsLoading(true);

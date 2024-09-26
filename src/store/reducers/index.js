@@ -1,6 +1,9 @@
-import {postUserReducer} from './users'
+import {postUserReducer} from './users';
+import { getProductsReducer, getCategoriesReducer } from './products';
 const reducer = {
-    postUserReducer
+    postUserReducer,
+    getProductsReducer,
+    getCategoriesReducer
 }
 
 export default reducer
