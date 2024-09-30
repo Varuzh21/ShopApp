@@ -1,56 +1,59 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image } from 'react-native'
+import React from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import StarRating from './StarRating';
 
-const ProductsCart = ({ products }) => {
-    const renderItem = ({ item }) => {
-        const discountedPrice = item.price - (item.price * item.discountPercentage / 100);
+const ProductsCart = ({ products = [] }) => {
+    if (!products || products.length === 0) {
+        return <Text>No products available.</Text>;
+    }
 
-        return (
-            // <View>
-                <TouchableOpacity style={styles.cart}>
-                    <View style={styles.iconContainer}>
-                        <Image source={{ uri: item.thumbnail }} style={styles.image} />
-                    </View>
-                    <Text style={styles.itemText}>{item.title}</Text>
-
-                    <View style={{ justifyContent: "flex-start" }}>
-                        <StarRating defaultRating={item.rating} maxRating={5} />
-                    </View>
-
-                    <Text style={styles.discountedPrice}>${discountedPrice.toFixed(2)}</Text>
-
-                    <View style={styles.priceContainer}>
-                        <Text style={styles.originalPrice}>${item.price.toFixed(2)}</Text>
-                        <Text style={styles.discountPercentage}>{item.discountPercentage}% Off</Text>
-                    </View>
-                </TouchableOpacity>
-            // </View>
-        );
-    };
     return (
-        <FlatList
-            data={products}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id.toString()}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.carousel}
-        />
-    )
+        <ScrollView contentContainerStyle={styles.carousel} showsHorizontalScrollIndicator={false}>
+            <View style={styles.productGrid}>
+                {products.map((item) => {
+                    const discountedPrice = item.price - (item.price * item.discountPercentage / 100);
+
+                    return (
+                        <View key={item.id.toString()} style={styles.productContainer}>
+                            <TouchableOpacity style={styles.cart}>
+                                <View style={styles.iconContainer}>
+                                    <Image source={{ uri: item.thumbnail }} style={styles.image} />
+                                </View>
+                                <Text style={styles.itemText}>{item.title}</Text>
+                                <View style={{ justifyContent: "flex-start" }}>
+                                    <StarRating defaultRating={item.rating} maxRating={5} />
+                                </View>
+                                <Text style={styles.discountedPrice}>${discountedPrice.toFixed(2)}</Text>
+                                <View style={styles.priceContainer}>
+                                    <Text style={styles.originalPrice}>${item.price.toFixed(2)}</Text>
+                                    <Text style={styles.discountPercentage}>{item.discountPercentage}% Off</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    );
+                })}
+            </View>
+        </ScrollView>
+    );
 }
 
-export default ProductsCart
-
 const styles = StyleSheet.create({
+    productGrid: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+    },
+    productContainer: {
+        marginBottom: 10,
+    },
     cart: {
-        width: 165,
+        width: 167,
         height: 282,
         borderWidth: 1,
         borderRadius: 10,
         borderColor: "rgb(235, 240, 255)",
         padding: 16,
-        // marginHorizontal: 10,
         backgroundColor: '#fff',
-        marginBottom: 10,
     },
     iconContainer: {
         width: '100%',
@@ -59,7 +62,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5F5F5',
         borderRadius: 10,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     image: {
         width: '100%',
@@ -81,7 +84,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: "rgb(64, 191, 255)",
         textAlign: 'left',
-        paddingTop: 16
+        paddingTop: 16,
     },
     originalPrice: {
         fontFamily: "Poppins",
@@ -103,13 +106,11 @@ const styles = StyleSheet.create({
     priceContainer: {
         flexDirection: 'row',
         alignContent: 'center',
-        gap: 8
+        gap: 8,
     },
     carousel: {
         width: '100%',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-        gap: 13
-    }
-})
+    },
+});
+
+export default ProductsCart;

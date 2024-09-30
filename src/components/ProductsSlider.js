@@ -1,19 +1,16 @@
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
-const ProductsSlider = ({ products, horizontal = true }) => {
-
-    const renderItem = ({ item }) => {
+const ProductsSlider = ({ products = [], horizontal = true, onNavigate }) => {
+    const renderItem = (item) => {
         const discountedPrice = item.price - (item.price * item.discountPercentage / 100);
 
         return (
-            <TouchableOpacity style={styles.cart}>
+            <TouchableOpacity style={styles.cart} onPress={() => onNavigate(item.id)}>
                 <View style={styles.iconContainer}>
                     <Image source={{ uri: item.thumbnail }} style={styles.image} />
                 </View>
                 <Text style={styles.itemText} numberOfLines={2}>{item.title}</Text>
-
                 <Text style={styles.discountedPrice}>${discountedPrice.toFixed(2)}</Text>
-
                 <View style={styles.priceContainer}>
                     <Text style={styles.originalPrice}>${item.price.toFixed(2)}</Text>
                     <Text style={styles.discountPercentage}>{item.discountPercentage}% Off</Text>
@@ -22,19 +19,31 @@ const ProductsSlider = ({ products, horizontal = true }) => {
         );
     };
 
+    // Handle case where products array is empty or undefined
+    if (!products || products.length === 0) {
+        return (
+            <View style={styles.emptyContainer}>
+                <Text style={styles.emptyText}>No products available</Text>
+            </View>
+        );
+    }
+
     return (
-        <FlatList
-        data={products}
-        renderItem={renderItem}
-        horizontal={horizontal}
-        keyExtractor={(item) => item.id.toString()}
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.carousel}
-    />
-    )
+        <ScrollView
+            horizontal={horizontal}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.carousel}
+        >
+            {products.map((item) => (
+                <View key={item.id.toString()}>
+                    {renderItem(item)}
+                </View>
+            ))}
+        </ScrollView>
+    );
 }
 
-export default ProductsSlider
+export default ProductsSlider;
 
 const styles = StyleSheet.create({
     cart: {
@@ -43,7 +52,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderColor: "rgb(235, 240, 255)",
         padding: 16,
-        // alignItems: 'center',
         marginHorizontal: 10,
         backgroundColor: '#fff',
     },
@@ -54,7 +62,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5F5F5',
         borderRadius: 10,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     image: {
         width: '100%',
@@ -94,9 +102,22 @@ const styles = StyleSheet.create({
         marginTop: 4,
         textAlign: 'right',
     },
-    priceContainer:{
+    priceContainer: {
         flexDirection: 'row',
         alignContent: 'center',
-        gap: 8
-    }
-})
+        gap: 8,
+    },
+    carousel: {
+        paddingVertical: 10, // Adjust the padding as needed
+    },
+    emptyContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
+        padding: 20,
+    },
+    emptyText: {
+        fontSize: 16,
+        color: 'gray',
+    },
+});

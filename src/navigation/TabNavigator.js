@@ -1,13 +1,13 @@
 import React from 'react';
 import { Text } from'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from '../screens/HomeScreen';
 import ExploreScreen from '../screens/ExploreScreen';
 import CartScreen from '../screens/CartScreen';
 import OfferScreen from '../screens/OfferScreen';
 import AccountScreen from '../screens/AccountScreen';
 import Icon from 'react-native-vector-icons/Feather';
 import Icon2 from 'react-native-vector-icons/AntDesign';
+import HomeScreenNav from './HomeScreenNav';
 
 const Tab = createBottomTabNavigator();
 
@@ -31,7 +31,7 @@ export default function TabNavigator() {
     >
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={HomeScreenNav}
         options={{
           tabBarIcon: ({ focused }) => (
             focused ? <Icon name="home" size={24} color="rgb(64, 191, 255)" /> : <Icon name="home" size={24} color="rgb(144, 152, 177)" />
@@ -69,6 +69,13 @@ export default function TabNavigator() {
         name="Offer"
         component={OfferScreen}
         options={{
+          headerShown: true,
+          headerTitleStyle: {
+            fontFamily: 'Poppins',
+            fontSize: 16,
+            fontWeight: '700',
+            color: 'rgb(34, 50, 99)',
+          },
           tabBarIcon: ({ focused }) => (
             focused ? <Icon2 name="tago" size={24} color="rgb(64, 191, 255)" /> : <Icon2 name="tago" size={24} color="rgb(144, 152, 177)" />
           ),
@@ -89,7 +96,6 @@ export default function TabNavigator() {
           )
         }}
       />
-
     </Tab.Navigator>
   );
 }

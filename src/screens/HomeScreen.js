@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { useNavigation } from '@react-navigation/native';
 import { ScrollView, View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
 import { getProductsRequest } from '../store/actions/products'
@@ -12,10 +13,11 @@ import ProductsCart from '../components/ProductsCart';
 
 export default function HomeScreen() {
   const dispatch = useDispatch()
+  const navigation = useNavigation()
 
-    useEffect(() => {
-      dispatch(getProductsRequest())
-    }, [dispatch])
+  useEffect(() => {
+    dispatch(getProductsRequest())
+  }, [])
 
   const products = useSelector((state) => state.getProductsReducer.products);
 
@@ -26,7 +28,7 @@ export default function HomeScreen() {
           <SearchBar placeHolder="Search Product" />
         </View>
         <View style={styles.iconContainer}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Favorite Product')}>
             <Icon name="heart" size={25} color="rgb(144, 152, 177)" />
           </TouchableOpacity>
           <TouchableOpacity>
@@ -39,7 +41,7 @@ export default function HomeScreen() {
         <FlashSaleBanner />
       </View>
 
-      <View style={{paddingTop: 24}}>
+      <View style={{ paddingTop: 24 }}>
         <View style={styles.categoryRow}>
           <Text style={styles.categoryTitle}>Category</Text>
           <TouchableOpacity>
@@ -61,7 +63,7 @@ export default function HomeScreen() {
         </View>
 
         <View style={{ paddingTop: 12 }}>
-          <ProductsSlider products={products.products} />
+          <ProductsSlider products={products.products} onNavigate={(id) => navigation.navigate('Product Detail', { productId: id })} />
         </View>
       </View>
 
@@ -74,16 +76,16 @@ export default function HomeScreen() {
         </View>
 
         <View style={{ paddingTop: 12 }}>
-          <ProductsSlider products={products.products} />
+          <ProductsSlider products={products.products} onNavigate={(id) => navigation.navigate('Product Detail', { productId: id })} />
         </View>
       </View>
 
-      <View style={{paddingTop: 9 }}>
+      <View style={{ paddingTop: 9 }}>
         <ReconProduct />
       </View>
 
-      <View style={{paddingTop: 16, }}>
-          <ProductsCart products={products.products}/>
+      <View style={{ paddingTop: 16, }}>
+        <ProductsCart products={products.products} />
       </View>
 
     </ScrollView>

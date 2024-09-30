@@ -1,53 +1,66 @@
-import React, { createContext, useState, useEffect, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { createContext, useState, useEffect, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { postUserRequest } from '../store/actions/users';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import MMKVStorage from 'react-native-mmkv-storage';
 
-export const AuthContext = createContext()
+const MMKV = new MMKVStorage.Loader().initialize();
+
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [userToken, setUserToken] = useState(null);
 
     const dispatch = useDispatch();
-
-    const token = useSelector((state) => state.postUserReducer.userToken)
-
-    const login = useCallback((form) => {
-        setIsLoading(true);
-        dispatch(postUserRequest(form));
-        setUserToken(token);
-        AsyncStorage.setItem("userToken", JSON.stringify(userToken));
-        setIsLoading(false);
-    }, []) 
-
-    const logout = () => {
-        setIsLoading(true);
-        setUserToken(null);
-        AsyncStorage.removeItem("userToken");
-        setIsLoading(false);
-    }
-
-    const isLidding = async () => {
-        try {
-            setIsLoading(true);
-            let userToken = await AsyncStorage.getItem("userToken");
-            if (userToken) {
-                setUserToken(userToken);
-            }
-            setIsLoading(false);
-        } catch (e) {
-            console.error(e);
-        }
-    }
+    const tokenFromStore = useSelector((state) => state.postUserReducer.userToken);
 
     useEffect(() => {
-        isLidding();
-    }, [])
+        const loadUserToken = async () => {
+            try {
+                const storedToken = await MMKV.getString("userToken");
+                if (storedToken) {
+                    setUserToken(storedToken);
+                }
+            } catch (error) {
+                console.error("Failed to load token from storage:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        loadUserToken();
+    }, []);
+
+    const login = useCallback(async (form) => {
+        setIsLoading(true);
+        try {
+            dispatch(postUserRequest(form));
+            if (tokenFromStore) {
+                setUserToken(tokenFromStore);
+                MMKV.setString("userToken", tokenFromStore);
+            }
+        } catch (error) {
+            console.error("Login failed:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    }, [tokenFromStore]);
+
+    const logout = useCallback(async () => {
+        setIsLoading(true);
+        try {
+            setUserToken(null);
+            MMKV.removeItem("userToken");
+        } catch (error) {
+            console.error("Logout failed:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
 
     return (
         <AuthContext.Provider value={{ login, logout, isLoading, userToken }}>
             {children}
         </AuthContext.Provider>
-    )
-}
+    );
+};

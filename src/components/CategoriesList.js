@@ -2,83 +2,31 @@ import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCategoriesRequest } from '../store/actions/products';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import _ from 'lodash';
 
 const CategoriesList = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getCategoriesRequest());
-  }, [dispatch]);
+  }, []);
 
   const categories = useSelector((state) => state.getCategoriesReducer.category);
 
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.carouselItem}>
       <View style={styles.iconContainer}>
-        <Icon name={getIconName(item.name)} size={40} color="#00ADEF" />
       </View>
       <Text style={styles.itemText}>{item.name}</Text>
     </TouchableOpacity>
   );
-
-  const getIconName = (category) => {
-    switch (category) {
-      case 'Beauty':
-        return 'lipstick';
-      case 'Fragrances':
-        return 'spray';
-      case 'Furniture':
-        return 'sofa';
-      case 'Groceries':
-        return 'shopping';
-      case 'Home Decoration':
-        return 'home-heart';
-      case 'Kitchen Accessories':
-        return 'silverware-fork-knife';
-      case 'Laptops':
-        return 'laptop';
-      case 'Mens Watches':
-        return 'watch';
-      case 'Mobile Accessories':
-        return 'cellphone-cog';
-      case 'Motorcycle':
-        return 'motorbike';
-      case 'Skin Care':
-        return 'face-woman-shimmer';
-      case 'Smartphones':
-        return 'cellphone';
-      case 'Sports Accessories':
-        return 'basketball';
-      case 'Sunglasses':
-        return 'sunglasses';
-      case 'Tablets':
-        return 'tablet';
-      case 'Tops':
-        return 'tshirt-v';
-      case 'Vehicle':
-        return 'car';
-      case 'Womens Bags':
-        return 'bag-personal';
-      case 'Womens Dresses':
-        return 'dress';
-      case 'Womens Jewellery':
-        return 'ring';
-      case 'Womens Shoes':
-        return 'shoe-heel';
-      case 'Womens Watches':
-        return 'watch-variant';
-      default:
-        return 'tag';
-    }
-  };
 
   return (
     <FlatList
       data={categories}
       renderItem={renderItem}
       horizontal
-      keyExtractor={(index) => index.toString()}
+      keyExtractor={() => _.uniqueId().toString()}
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.carousel}
     />

@@ -15,6 +15,9 @@ class Api {
     static getProducts() {
         return api.get("products/category/mens-shoes")
     }
+    static getProduct(productId) {
+        return api.get(`products/${productId}`)
+    }
 }
 
 export default Api;

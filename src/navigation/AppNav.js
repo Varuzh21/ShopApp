@@ -3,7 +3,8 @@ import {View, ActivityIndicator} from "react-native"
 import { NavigationContainer } from '@react-navigation/native';
 import StackNavigator from './StackNavigator';
 import { AuthContext } from '../context/AuthContext';
-import TabNavigator from './TabNavigator';
+import LoginScreen from '../screens/LoginScreen';
+// import TabNavigator from './TabNavigator';
 
 const AppNav = () => {
     const { isLoading, userToken } = useContext(AuthContext);
@@ -15,7 +16,7 @@ const AppNav = () => {
     }
     return (
         <NavigationContainer>
-            {userToken !== null ? <TabNavigator/> : <StackNavigator /> }
+            {userToken !== null ? <StackNavigator/> : <LoginScreen /> }
         </NavigationContainer>
     )
 }

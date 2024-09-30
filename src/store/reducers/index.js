@@ -1,9 +1,10 @@
 import {postUserReducer} from './users';
-import { getProductsReducer, getCategoriesReducer } from './products';
+import { getProductsReducer, getCategoriesReducer, getSingleProductReducer } from './products';
 const reducer = {
     postUserReducer,
     getProductsReducer,
-    getCategoriesReducer
+    getCategoriesReducer,
+    getSingleProductReducer
 }
 
 export default reducer

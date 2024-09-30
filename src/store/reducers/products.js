@@ -1,10 +1,11 @@
 import {createReducer} from '@reduxjs/toolkit'
-import { getProductsRequest, getCategoriesRequest} from '../actions/products'
+import { getProductsRequest, getCategoriesRequest, getSingleProductRequest} from '../actions/products'
 
 
 const initialState = {
     products: [],
-    category: []
+    category: [],
+    product: []
 }
 
 export const getProductsReducer = createReducer(initialState, (builder) =>{
@@ -19,5 +20,11 @@ export const getProductsReducer = createReducer(initialState, (builder) =>{
 export const getCategoriesReducer = createReducer(initialState, (builder) =>{
     builder.addCase(getCategoriesRequest.fulfilled, (state, action) =>{
         state.category = action.payload
+    })
+})
+
+export const getSingleProductReducer = createReducer(initialState, (builder) =>{
+    builder.addCase(getSingleProductRequest.fulfilled, (state, action) =>{
+        state.product = action.payload
     })
 })
