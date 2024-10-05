@@ -1,40 +1,24 @@
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
-import HomeScreen from '../screens/HomeScreen';
+import Icon from 'react-native-vector-icons/AntDesign';
+import ExploreScreen from '../screens/ExploreScreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
 import NotificationScreen from '../screens/NotificationScreen';
-import FavoriteProduct from '../screens/FavoriteProductScreen';
-import Icon from 'react-native-vector-icons/AntDesign';
-import ListCategoryScreen from '../screens/ListCategoryScreen';
+import FavoriteProductScreen from '../screens/FavoriteProductScreen';
+import SearchResultsScreen from '../screens/SearchResultsScreen';
+
 
 const Stack = createStackNavigator();
 
-const HomeScreenNav = () => {
+export default function ExploreScreenNav() {
     const navigation = useNavigation();
+
     return (
         <Stack.Navigator screenOptions={{
             headerShown: false,
         }}>
-            <Stack.Screen name="HomeScreen" component={HomeScreen} />
-            <Stack.Screen
-                name="Favorite Product"
-                component={FavoriteProduct}
-                options={{
-                    headerShown: true,
-                    headerTitleStyle: {
-                        fontFamily: 'Poppins',
-                        fontSize: 16,
-                        fontWeight: '700',
-                        color: 'rgb(34, 50, 99)',
-                    },
-                    headerLeft: () => (
-                        <TouchableOpacity style={{ paddingLeft: 16 }} onPress={() => navigation.goBack()}>
-                            <Icon name="left" size={15} color="rgb(144, 152, 177)" />
-                        </TouchableOpacity>
-                    ),
-                }}
-            />
+            <Stack.Screen name='ExploreScreen' component={ExploreScreen}/>
             <Stack.Screen
                 name="Product Detail"
                 component={ProductDetailScreen}
@@ -54,6 +38,24 @@ const HomeScreenNav = () => {
                 }}
             />
             <Stack.Screen
+                name="Favorite Product"
+                component={FavoriteProductScreen}
+                options={{
+                    headerShown: true,
+                    headerTitleStyle: {
+                        fontFamily: 'Poppins',
+                        fontSize: 16,
+                        fontWeight: '700',
+                        color: 'rgb(34, 50, 99)',
+                    },
+                    headerLeft: () => (
+                        <TouchableOpacity style={{ paddingLeft: 16 }} onPress={() => navigation.navigate('ExploreScreen')}>
+                            <Icon name="left" size={15} color="rgb(144, 152, 177)" />
+                        </TouchableOpacity>
+                    ),
+                }}
+            />
+            <Stack.Screen
                 name='Notification'
                 component={NotificationScreen}
                 options={{
@@ -65,32 +67,16 @@ const HomeScreenNav = () => {
                         color: 'rgb(34, 50, 99)',
                     },
                     headerLeft: () => (
-                        <TouchableOpacity style={{ paddingLeft: 16 }} onPress={() => navigation.goBack()}>
+                        <TouchableOpacity style={{ paddingLeft: 16 }} onPress={() => navigation.navigate('ExploreScreen')}>
                             <Icon name="left" size={15} color="rgb(144, 152, 177)" />
                         </TouchableOpacity>
                     ),
                 }}
             />
-            <Stack.Screen
-                name='List Category'
-                component={ListCategoryScreen}
-                options={{
-                    headerShown: true,
-                    headerTitleStyle: {
-                        fontFamily: 'Poppins',
-                        fontSize: 16,
-                        fontWeight: '700',
-                        color: 'rgb(34, 50, 99)',
-                    },
-                    headerLeft: () => (
-                        <TouchableOpacity style={{ paddingLeft: 16 }} onPress={() => navigation.goBack()}>
-                            <Icon name="left" size={15} color="rgb(144, 152, 177)" />
-                        </TouchableOpacity>
-                    ),
-                }}
+            <Stack.Screen 
+                name='SearchResults'
+                component={SearchResultsScreen}
             />
         </Stack.Navigator>
     )
 }
-
-export default HomeScreenNav;

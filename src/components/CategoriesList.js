@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { getCategoriesRequest } from '../store/actions/products';
 import _ from 'lodash';
 
@@ -9,13 +10,30 @@ const CategoriesList = () => {
 
   useEffect(() => {
     dispatch(getCategoriesRequest());
-  }, []);
+  }, [dispatch]);
 
   const categories = useSelector((state) => state.getCategoriesReducer.category);
+
+  const iconMap = {
+    beauty: 'face', 
+    fragrances: 'local-florist', 
+    furniture: 'chair', 
+    groceries: 'local-grocery-store', 
+    laptops: 'laptop', 
+    motorcycle: 'two-wheeler', 
+    smartphones: 'smartphone', 
+    sunglasses: 'remove-red-eye',
+    tablets: 'tablet', 
+    tops: 'style',
+    vehicle: 'commute',
+  };
+
+  const getIconName = (slug) => iconMap[slug] || 'category';
 
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.carouselItem}>
       <View style={styles.iconContainer}>
+        <Icon name={getIconName(item.slug)} size={40} color="rgb(64, 191, 255)" />
       </View>
       <Text style={styles.itemText}>{item.name}</Text>
     </TouchableOpacity>
@@ -26,7 +44,7 @@ const CategoriesList = () => {
       data={categories}
       renderItem={renderItem}
       horizontal
-      keyExtractor={() => _.uniqueId().toString()}
+      keyExtractor={(item) => item.slug}
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.carousel}
     />

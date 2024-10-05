@@ -2,7 +2,7 @@ import React from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
-function SearchBar({ placeHolder = "Search..." }) {
+function SearchBar({ placeHolder = "Search...", handleSearch}) {
     return (
         <View style={styles.container}>
             <Icon name="search" size={24} color="rgb(64, 191, 255)" style={styles.icon} /> 
@@ -12,6 +12,7 @@ function SearchBar({ placeHolder = "Search..." }) {
                 placeholderTextColor="#888"
                 accessible={true} 
                 accessibilityLabel="Search Input"
+                onChange={handleSearch}
             />
         </View>
     );

@@ -1,11 +1,17 @@
 import {createReducer} from '@reduxjs/toolkit'
-import { getProductsRequest, getCategoriesRequest, getSingleProductRequest} from '../actions/products'
+import { 
+    getProductsRequest,
+    getCategoriesRequest,
+    getSingleProductRequest,
+    getSearchProductRequest,
+} from '../actions/products'
 
 
 const initialState = {
     products: [],
     category: [],
-    product: []
+    product: [],
+    searchResult: [],
 }
 
 export const getProductsReducer = createReducer(initialState, (builder) =>{
@@ -26,5 +32,11 @@ export const getCategoriesReducer = createReducer(initialState, (builder) =>{
 export const getSingleProductReducer = createReducer(initialState, (builder) =>{
     builder.addCase(getSingleProductRequest.fulfilled, (state, action) =>{
         state.product = action.payload
+    })
+})
+
+export const getSearchProductReducer = createReducer(initialState, (builder) =>{
+    builder.addCase(getSearchProductRequest.fulfilled, (state, action) =>{
+        state.searchResult = action.payload
     })
 })

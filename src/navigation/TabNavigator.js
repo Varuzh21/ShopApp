@@ -1,13 +1,13 @@
 import React from 'react';
 import { Text } from'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import ExploreScreen from '../screens/ExploreScreen';
 import CartScreen from '../screens/CartScreen';
 import OfferScreen from '../screens/OfferScreen';
 import AccountScreen from '../screens/AccountScreen';
 import Icon from 'react-native-vector-icons/Feather';
 import Icon2 from 'react-native-vector-icons/AntDesign';
 import HomeScreenNav from './HomeScreenNav';
+import ExploreScreenNav from './ExploreScreenNav'
 
 const Tab = createBottomTabNavigator();
 
@@ -15,6 +15,7 @@ export default function TabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={{
+        tabBarHideOnKeyboard: true,
         headerShown: false,
         tabBarStyle: {
           width: '100%',
@@ -43,7 +44,7 @@ export default function TabNavigator() {
       />
       <Tab.Screen
         name="Explore"
-        component={ExploreScreen}
+        component={ExploreScreenNav}
         options={{
           tabBarIcon: ({ focused }) => (
             focused ? <Icon name="search" size={24} color="rgb(64, 191, 255)" /> : <Icon name="search" size={24} color="rgb(144, 152, 177)" />

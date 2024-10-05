@@ -33,3 +33,14 @@ export const getSingleProductRequest = createAsyncThunk("get-single-product",
         }
     }
 )
+
+export const getSearchProductRequest = createAsyncThunk("post-search-product",
+    async (payload, thunkAPI) =>{
+        try {
+            const {data} = await Api.getSearchProduct(payload);
+            return data
+        }catch (e){
+            return thunkAPI.rejectWithValue(e.response.data);
+        }
+    }
+)

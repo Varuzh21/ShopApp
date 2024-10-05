@@ -1,8 +1,8 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView, View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
-import { getProductsRequest } from '../store/actions/products'
+import { getProductsRequest, getSearchProductRequest } from '../store/actions/products'
 import SearchBar from '../components/SearchBar';
 import Icon from 'react-native-vector-icons/Feather';
 import FlashSaleBanner from '../components/FlashSaleBanner';
@@ -21,17 +21,21 @@ export default function HomeScreen() {
 
   const products = useSelector((state) => state.getProductsReducer.products);
 
+  const handleSearch = useCallback(async (e) => {
+    dispatch(getSearchProductRequest(e.nativeEvent.text))
+  }, [])
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.inputGroup}>
         <View style={styles.searchBarContainer}>
-          <SearchBar placeHolder="Search Product" />
+          <SearchBar placeHolder="Search Product" handleSearch={handleSearch} />
         </View>
         <View style={styles.iconContainer}>
           <TouchableOpacity onPress={() => navigation.navigate('Favorite Product')}>
             <Icon name="heart" size={25} color="rgb(144, 152, 177)" />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
             <Icon name="bell" size={25} color="rgb(144, 152, 177)" />
           </TouchableOpacity>
         </View>
@@ -44,7 +48,7 @@ export default function HomeScreen() {
       <View style={{ paddingTop: 24 }}>
         <View style={styles.categoryRow}>
           <Text style={styles.categoryTitle}>Category</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('List Category')}>
             <Text style={styles.categoryTitleRight}>More Category</Text>
           </TouchableOpacity>
         </View>

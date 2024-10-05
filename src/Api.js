@@ -18,6 +18,9 @@ class Api {
     static getProduct(productId) {
         return api.get(`products/${productId}`)
     }
+    static getSearchProduct(search){
+        return api.get(`products/search?q=${search}`)
+    }
 }
 
 export default Api;
