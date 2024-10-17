@@ -9,7 +9,7 @@ const FavoriteProductScreen = () => {
 
   useEffect(() => {
     dispatch(getProductsRequest())
-  }, [dispatch])
+  }, [])
 
   const products = useSelector((state) => state.getProductsReducer.products);
 

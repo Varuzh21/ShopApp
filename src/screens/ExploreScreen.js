@@ -1,15 +1,37 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSearchProductRequest } from '../store/actions/products';
+import { getSearchProductRequest, getCategoriesRequest } from '../store/actions/products';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
+import Icon2 from 'react-native-vector-icons/MaterialIcons';
 import SearchBar from '../components/SearchBar';
+import Button from '../components/Button';
 
 const ExploreScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
+
+  useEffect(() => {
+    dispatch(getCategoriesRequest())
+  }, [])
+
+  const iconMap = {
+    beauty: 'face',
+    fragrances: 'local-florist',
+    furniture: 'chair',
+    groceries: 'local-grocery-store',
+    laptops: 'laptop',
+    motorcycle: 'two-wheeler',
+    smartphones: 'smartphone',
+    sunglasses: 'remove-red-eye',
+    tablets: 'tablet',
+    tops: 'style',
+    vehicle: 'commute',
+  };
+
+  const getIconName = (slug) => iconMap[slug] || 'category';
 
   const handleSearch = useCallback((e) => {
     const searchQuery = e.nativeEvent.text;
@@ -19,6 +41,7 @@ const ExploreScreen = () => {
     }
   }, []);
 
+  const categories = useSelector((state) => state.getCategoriesReducer.category);
   const searchResults = useSelector((state) => state.getSearchProductReducer.searchResult);
 
   const products = searchResults?.products ?? [];
@@ -46,13 +69,28 @@ const ExploreScreen = () => {
         {products.length > 0 ? (
           <>
             {products.map((product, index) => (
-              <TouchableOpacity key={index} style={styles.productItem} onPress={() => navigation.navigate('SearchResults', {searchQuery: product.title})}>
+              <TouchableOpacity key={index} style={styles.productItem} onPress={() => navigation.navigate('Product Detail', { productId: product.id })}>
                 <Text style={styles.productName}>{product.title}</Text>
               </TouchableOpacity>
             ))}
+            <View style={{ paddingTop: 15 }}>
+              <Button title="See More" onClickButton={() => navigation.navigate('SearchResults', { searchQuery: searchText })} />
+            </View>
           </>
         ) : (
-          <Text style={styles.noResultText}>No products found</Text>
+          <>
+            <Text style={styles.title}>Categories</Text>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+              {categories.map((item, index) => (
+                <TouchableOpacity key={index} style={styles.categoryItem} onPress={() => navigation.navigate("SearchResults", {name: item.name.toLowerCase()})}>
+                  <View style={styles.iconContainer2}>
+                    <Icon2 name={getIconName(item.slug)} size={40} color="rgb(64, 191, 255)" />
+                  </View>
+                  <Text style={styles.itemText}>{item.name}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </>
         )}
       </View>
     </ScrollView>
@@ -105,5 +143,31 @@ const styles = StyleSheet.create({
     color: 'rgb(144, 152, 177)',
     textAlign: 'center',
     marginTop: 20,
+  },
+  title: {
+    fontFamily: 'Poppins',
+    fontSize: 18,
+    fontWeight: '700',
+    color: 'rgb(34, 50, 99)',
+    marginBottom: 20,
+  },
+  iconContainer2: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    borderWidth: 1,
+    borderColor: 'rgb(235, 240, 255)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  itemText: {
+    textAlign: 'center',
+    fontSize: 12,
+    color: 'rgb(34, 50, 99)',
+  },
+  categoryItem: {
+    margin: '3%',
+    alignItems: 'center',
   },
 });

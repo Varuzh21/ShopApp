@@ -14,8 +14,11 @@ const ProductDetail = () => {
     const { productId } = route.params;
 
     useEffect(() => {
-        dispatch(getSingleProductRequest(productId));
-        dispatch(getProductsRequest());
+        (async () => {
+            await Promise.all(
+                dispatch(getSingleProductRequest(productId)),
+                dispatch(getProductsRequest()))
+        })()
     }, [productId]);
 
     const product = useSelector((state) => state.getSingleProductReducer.product) || [];
@@ -23,7 +26,6 @@ const ProductDetail = () => {
 
     return (
         <ScrollView style={styles.container}>
-            {/* Mapping through product images */}
             <View style={styles.imageRow}>
                 {(product.images || []).map((item) => {
                     const imageUri = item || 'https://example.com/fallback-image.png';

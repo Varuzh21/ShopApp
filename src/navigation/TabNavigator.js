@@ -1,13 +1,14 @@
 import React from 'react';
 import { Text } from'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import CartScreen from '../screens/CartScreen';
+import CartScreenNav from './CartScreenNav';
 import OfferScreen from '../screens/OfferScreen';
-import AccountScreen from '../screens/AccountScreen';
+// import AccountScreen from '../screens/AccountScreen';
 import Icon from 'react-native-vector-icons/Feather';
 import Icon2 from 'react-native-vector-icons/AntDesign';
 import HomeScreenNav from './HomeScreenNav';
 import ExploreScreenNav from './ExploreScreenNav'
+import AccountScreenNav from './AccountScreenNav';
 
 const Tab = createBottomTabNavigator();
 
@@ -56,7 +57,7 @@ export default function TabNavigator() {
       />
       <Tab.Screen
         name="Cart"
-        component={CartScreen}
+        component={CartScreenNav}
         options={{
           tabBarIcon: ({ focused }) => (
             focused ? <Icon name="shopping-cart" size={24} color="rgb(64, 191, 255)" /> : <Icon name="shopping-cart" size={24} color="rgb(144, 152, 177)" />
@@ -86,8 +87,8 @@ export default function TabNavigator() {
         }}
       />
       <Tab.Screen
-        name="Account"
-        component={AccountScreen}
+        name="AccountScreenNav"
+        component={AccountScreenNav}
         options={{
           tabBarIcon: ({ focused }) => (
             focused ? <Icon name="user" size={24} color="rgb(64, 191, 255)" /> : <Icon name="user" size={24} color="rgb(144, 152, 177)" />

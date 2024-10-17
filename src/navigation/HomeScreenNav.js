@@ -1,17 +1,14 @@
-import { TouchableOpacity } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
 import HomeScreen from '../screens/HomeScreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
 import NotificationScreen from '../screens/NotificationScreen';
 import FavoriteProduct from '../screens/FavoriteProductScreen';
-import Icon from 'react-native-vector-icons/AntDesign';
 import ListCategoryScreen from '../screens/ListCategoryScreen';
+import SearchResultsScreen from '../screens/SearchResultsScreen';
 
 const Stack = createStackNavigator();
 
 const HomeScreenNav = () => {
-    const navigation = useNavigation();
     return (
         <Stack.Navigator screenOptions={{
             headerShown: false,
@@ -28,11 +25,6 @@ const HomeScreenNav = () => {
                         fontWeight: '700',
                         color: 'rgb(34, 50, 99)',
                     },
-                    headerLeft: () => (
-                        <TouchableOpacity style={{ paddingLeft: 16 }} onPress={() => navigation.goBack()}>
-                            <Icon name="left" size={15} color="rgb(144, 152, 177)" />
-                        </TouchableOpacity>
-                    ),
                 }}
             />
             <Stack.Screen
@@ -46,11 +38,6 @@ const HomeScreenNav = () => {
                         fontWeight: '700',
                         color: 'rgb(34, 50, 99)',
                     },
-                    headerLeft: () => (
-                        <TouchableOpacity style={{ paddingLeft: 16 }} onPress={() => navigation.goBack()}>
-                            <Icon name="left" size={15} color="rgb(144, 152, 177)" />
-                        </TouchableOpacity>
-                    ),
                 }}
             />
             <Stack.Screen
@@ -64,11 +51,6 @@ const HomeScreenNav = () => {
                         fontWeight: '700',
                         color: 'rgb(34, 50, 99)',
                     },
-                    headerLeft: () => (
-                        <TouchableOpacity style={{ paddingLeft: 16 }} onPress={() => navigation.goBack()}>
-                            <Icon name="left" size={15} color="rgb(144, 152, 177)" />
-                        </TouchableOpacity>
-                    ),
                 }}
             />
             <Stack.Screen
@@ -82,11 +64,19 @@ const HomeScreenNav = () => {
                         fontWeight: '700',
                         color: 'rgb(34, 50, 99)',
                     },
-                    headerLeft: () => (
-                        <TouchableOpacity style={{ paddingLeft: 16 }} onPress={() => navigation.goBack()}>
-                            <Icon name="left" size={15} color="rgb(144, 152, 177)" />
-                        </TouchableOpacity>
-                    ),
+                }}
+            />
+            <Stack.Screen
+                name="Search Results"
+                component={SearchResultsScreen}
+                options={{
+                    headerShown: false,
+                    headerTitleStyle: {
+                        fontFamily: 'Poppins',
+                        fontSize: 16,
+                        fontWeight: '700',
+                        color: 'rgb(34, 50, 99)',
+                    },
                 }}
             />
         </Stack.Navigator>

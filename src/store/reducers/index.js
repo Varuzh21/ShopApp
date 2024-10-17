@@ -3,15 +3,19 @@ import {
     getProductsReducer,
     getCategoriesReducer,
     getSingleProductReducer,
-    getSearchProductReducer
+    getSearchProductReducer,
+    getProductsByCategoryReducer
 } from './products';
+import {getAllCartReducer} from './cart'
 
 const reducer = {
     postUserReducer,
     getProductsReducer,
     getCategoriesReducer,
     getSingleProductReducer,
-    getSearchProductReducer
+    getSearchProductReducer,
+    getAllCartReducer,
+    getProductsByCategoryReducer
 }
 
 export default reducer

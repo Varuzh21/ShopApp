@@ -1,15 +1,16 @@
 import {createReducer} from '@reduxjs/toolkit'
-import { postUserRequest,} from '../actions/users'
+import { postUserRequest } from '../actions/users'
 
 
 const initialState = {
-    user: [],
+    user: {},
     userToken: null,
     error: null,
 }
 
 export const postUserReducer = createReducer(initialState, (builder) =>{
     builder.addCase(postUserRequest.fulfilled, (state, action) =>{
+        console.log(action.payload, "reducer fulfilled");
         state.user = action.payload,
         state.userToken = action.payload.accessToken
     })

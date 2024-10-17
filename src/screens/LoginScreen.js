@@ -7,7 +7,7 @@ import Logo from '../assets/icons/logo.svg';
 import { AuthContext } from '../context/AuthContext';
 
 export default function Login() {
-  const {login} = useContext(AuthContext);
+  const { login, isLoading } = useContext(AuthContext);
   const [form, setForm] = useState({
     username: '',
     password: '',
@@ -19,7 +19,7 @@ export default function Login() {
       [field]: value.nativeEvent ? value.nativeEvent.text : value,
     });
   };
-  
+
   const errorMessage = useSelector((state) => state.postUserReducer.error);
 
   return (
@@ -57,7 +57,8 @@ export default function Login() {
         <Button
           title="Sign In"
           iconSource={null}
-          onClickButton={() => {login(form)}}
+          isLoading={isLoading}
+          onClickButton={() => { login(form) }}
         />
       </View>
 

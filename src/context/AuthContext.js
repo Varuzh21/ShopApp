@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect, useCallback } from 'react';
+import { ToastAndroid } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux';
 import { postUserRequest } from '../store/actions/users';
 import MMKVStorage from 'react-native-mmkv-storage';
@@ -15,9 +16,9 @@ export const AuthProvider = ({ children }) => {
     const tokenFromStore = useSelector((state) => state.postUserReducer.userToken);
 
     useEffect(() => {
-        const loadUserToken = async () => {
+        (async () => {
             try {
-                const storedToken = await MMKV.getString("userToken");
+                const storedToken = MMKV.getString("userToken");
                 if (storedToken) {
                     setUserToken(storedToken);
                 }
@@ -26,18 +27,18 @@ export const AuthProvider = ({ children }) => {
             } finally {
                 setIsLoading(false);
             }
-        };
-
-        loadUserToken();
-    }, []);
+        })()
+       
+    }, [tokenFromStore]);
 
     const login = useCallback(async (form) => {
-        setIsLoading(true);
         try {
+            setIsLoading(true);
             dispatch(postUserRequest(form));
             if (tokenFromStore) {
                 setUserToken(tokenFromStore);
                 MMKV.setString("userToken", tokenFromStore);
+                ToastAndroid.show("Logged in successfully!", ToastAndroid.SHORT);
             }
         } catch (error) {
             console.error("Login failed:", error);

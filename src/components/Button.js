@@ -1,21 +1,31 @@
-import React from 'react'
-import { Text, TouchableOpacity, StyleSheet } from 'react-native'
-import GoogleIcon from '../assets/icons/google.svg'
-import FacebookIcon from '../assets/icons/facebook.svg'
+import React, { useState } from 'react';
+import { Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import GoogleIcon from '../assets/icons/google.svg';
+import FacebookIcon from '../assets/icons/facebook.svg';
 
-export default function Button({ title, customStyle, textStyle, onClickButton, iconSource }) {
+export default function Button({ title, customStyle, textStyle, onClickButton, iconSource, isLoading = false }) {
   return (
-    <TouchableOpacity style={customStyle ? customStyle : styles.container} onPress={onClickButton}>
-      {iconSource && (
-        iconSource === 'google' ? (
-          <GoogleIcon style={{with: '20%'}} />
-        ) : (
-          <FacebookIcon style={{with: '20%'}} />
-        )
+    <TouchableOpacity
+      style={customStyle ? customStyle : styles.container}
+      onPress={onClickButton}
+      disabled={isLoading}
+    >
+      {isLoading ? (
+        <ActivityIndicator size="small" color="white" />
+      ) : (
+        <>
+          {iconSource && (
+            iconSource === 'google' ? (
+              <GoogleIcon style={{ width: '20%' }} />
+            ) : (
+              <FacebookIcon style={{ width: '20%' }} />
+            )
+          )}
+          <Text style={textStyle ? textStyle : styles.text}>{title}</Text>
+        </>
       )}
-      <Text style={textStyle ? textStyle : styles.text}>{title}</Text>
     </TouchableOpacity>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -31,10 +41,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   text: {
-    fontFamily: "Poppins",
+    fontFamily: 'Poppins',
     fontSize: 14,
-    fontWeight: "bold",
-    color: "rgb(255, 255, 255)",
-    textAlign: "center",
-  }
-})
+    fontWeight: 'bold',
+    color: 'rgb(255, 255, 255)',
+    textAlign: 'center',
+  },
+});

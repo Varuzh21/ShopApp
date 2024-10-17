@@ -23,6 +23,17 @@ export const getCategoriesRequest = createAsyncThunk("get-categories",
     }
 )
 
+export const getProductsByCategoryRequest = createAsyncThunk("get-products-by-category",
+    async (payload, thunkAPI) =>{
+        try {
+            const {data}= await Api.getProductsByCategory(payload);
+            return data
+        }catch (e){
+            return thunkAPI.rejectWithValue(e.response.data);
+        }
+    }
+)
+
 export const getSingleProductRequest = createAsyncThunk("get-single-product",
     async (payload, thunkAPI) =>{
         try {

@@ -21,6 +21,12 @@ class Api {
     static getSearchProduct(search){
         return api.get(`products/search?q=${search}`)
     }
+    static getAllCart(){
+        return api.get("carts")
+    }
+    static getProductsByCategory(name) {
+        return api.get(`products/category/${name}`)
+    }
 }
 
 export default Api;

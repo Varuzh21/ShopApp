@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useNavigation } from '@react-navigation/native'; 
 import { getCategoriesRequest } from '../store/actions/products';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import _ from 'lodash';
 
 const CategoriesList = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   useEffect(() => {
     dispatch(getCategoriesRequest());
-  }, [dispatch]);
+  }, []);
 
   const categories = useSelector((state) => state.getCategoriesReducer.category);
 
@@ -31,7 +33,7 @@ const CategoriesList = () => {
   const getIconName = (slug) => iconMap[slug] || 'category';
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.carouselItem}>
+    <TouchableOpacity style={styles.carouselItem} onPress={() => navigation.navigate('Search Results', {name: item.name.toLowerCase()})}>
       <View style={styles.iconContainer}>
         <Icon name={getIconName(item.slug)} size={40} color="rgb(64, 191, 255)" />
       </View>
