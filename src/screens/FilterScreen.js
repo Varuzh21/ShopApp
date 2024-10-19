@@ -1,83 +1,127 @@
-import { useState } from 'react'
-import { StyleSheet, Text, View, ScrollView, TextInput } from 'react-native'
-import Slider from '@react-native-community/slider';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, ScrollView } from 'react-native';
+import MultiSlider from '@ptomasroos/react-native-multi-slider';
+import Input from '../components/Input';
 
 const FilterScreen = () => {
-    const [minPrice, setMinPrice] = useState(0);
-    const [maxPrice, setMaxPrice] = useState(10000);
+    const [sliderValues, setSliderValues] = useState([0, 10000]);
+
+    const handleSliderChange = (values) => {
+        setSliderValues(values);
+    };
+
+    const handleMinPriceChange = (value) => {
+        const numericValue = parseInt(value, 10);
+        if (!isNaN(numericValue) && numericValue >= 0 && numericValue <= sliderValues[1]) {
+            setSliderValues([numericValue, sliderValues[1]]);
+        }
+    };
+
+    const handleMaxPriceChange = (value) => {
+        const numericValue = parseInt(value, 10);
+        if (!isNaN(numericValue) && numericValue >= sliderValues[0] && numericValue <= 10000) {
+            setSliderValues([sliderValues[0], numericValue]);
+        }
+    };
 
     return (
         <ScrollView style={styles.container}>
             <Text style={styles.label}>Price Range</Text>
-            <View style={styles.priceInputs}>
-                <TextInput
-                    style={styles.priceInput}
-                    keyboardType="numeric"
-                    value={minPrice.toString()}
-                    onChangeText={(value) => setMinPrice(Number(value))}
-                />
-                <TextInput
-                    style={styles.priceInput}
-                    keyboardType="numeric"
-                    value={maxPrice.toString()}
-                    onChangeText={(value) => setMaxPrice(Number(value))}
+
+            <View style={styles.priceDisplay}>
+                <View style={{ width: "45%" }}>
+                    <Input
+                        // type='numeric'
+                        value={sliderValues[0].toString()}
+                        onChangeText={handleMinPriceChange}
+                    />
+                </View>
+
+                <View style={{ width: "45%" }}>
+                    <Input
+                        // type='numeric'
+                        value={sliderValues[1].toString()}
+                        onChangeText={handleMaxPriceChange}
+                    />
+                </View>
+            </View>
+
+            <View style={{width: '100%' ,flexDirection: 'row', justifyContent: 'center'}}>
+                <MultiSlider
+                    values={sliderValues}
+                    onValuesChange={handleSliderChange}
+                    min={0}
+                    max={10000}
+                    step={100}
+                    snapped
+                    allowOverlap={false}
+                    containerStyle={styles.sliderContainer}
+                    selectedStyle={styles.selectedTrack}
+                    unselectedStyle={styles.unselectedTrack}
+                    trackStyle={styles.track}
+                    sliderLength={345}
+                    markerStyle={styles.marker}
+                    pressedMarkerStyle={styles.pressedMarker}
                 />
             </View>
 
-            <View></View>
-            <Slider
-                style={{ width: '100%', height: 40 }}
-                minimumValue={0}
-                maximumValue={10000}
-                debugTouchArea={true}
-                step={100}
-                value={minPrice}
-                onValueChange={(value) => setMinPrice(value)}
-                minimumTrackTintColor="#00aaff"
-                maximumTrackTintColor="#d3d3d3"
-            />
-            <Slider
-                style={{ width: '100%', height: 40 }}
-                minimumValue={0}
-                maximumValue={10000}
-                debugTouchArea={true}
-                step={100}
-                value={maxPrice}
-                onValueChange={(value) => setMaxPrice(value)}
-                minimumTrackTintColor="#00aaff"
-                maximumTrackTintColor="#d3d3d3"
-            />
+            <View style={{width: '100%' ,flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.text}>MIN</Text>
+                <Text style={styles.text}>MAX</Text>
+            </View>
         </ScrollView>
-    )
-}
+    );
+};
 
-export default FilterScreen
+export default FilterScreen;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        paddingHorizontal: 15,
         backgroundColor: '#fff',
-        paddingHorizontal: 10,
-    },
-    sliderContainer: {
-        padding: 20,
     },
     label: {
-        color: 'rgb(34, 50, 99)',
-        fontFamily: 'Poppins',
+        color: "rgb(34, 50, 99)",
         fontSize: 14,
         fontWeight: '700',
+        paddingTop: 16,
+        marginBottom: 10,
     },
-    priceInputs: {
+    priceDisplay: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginVertical: 10,
     },
-    priceInput: {
-        borderWidth: 1,
-        borderColor: '#ddd',
-        padding: 8,
-        width: '45%',
+    priceText: {
+        fontSize: 16,
+        fontWeight: '700',
+    },
+    track: {
+        height: 4,
         borderRadius: 5,
     },
-})
+    selectedTrack: {
+        backgroundColor: 'rgb(64, 191, 255)',
+    },
+    unselectedTrack: {
+        backgroundColor: 'rgb(235, 240, 255)',
+    },
+    marker: {
+        backgroundColor: 'rgb(64, 191, 255)',
+        height: 20,
+        width: 20,
+        borderRadius: 10,
+    },
+    pressedMarker: {
+        backgroundColor: 'rgb(64, 191, 255)',
+    },
+    sliderContainer: {
+        width: '100%',
+    },
+    text: {
+        color: 'rgb(144,152,177)',
+        fontFamily: 'Poppins',
+        fontSize: 12,
+        fontWeight: '700',
+    }
+});

@@ -1,12 +1,31 @@
-import React, { useContext } from 'react';
+import { useCallback, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { AuthContext } from '../context/AuthContext';
+import { MMKVLoader } from 'react-native-mmkv-storage';
+import { useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/Feather';
 
+const storage = new MMKVLoader().initialize();
+
 export default function AccountScreen() {
-  const { logout } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const [userToken, setUserToken] = useState(null);
   const navigation = useNavigation();
+
+  const tokenFromStore = useSelector((state) => state.postUserReducer.userToken);
+
+  // setUserToken(tokenFromStore)
+  const handleLogout = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      setUserToken(null)
+      storage.removeItem("userToken");
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.error("Logout failed:", error);
+    }
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -30,7 +49,7 @@ export default function AccountScreen() {
         <Text style={styles.text}>Payment</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={() => { logout() }}>
+      <TouchableOpacity style={styles.button} onPress={handleLogout}>
         <Icon name='log-out' size={25} color="rgb(64, 191, 255)" />
         <Text style={styles.text}>Logout</Text>
       </TouchableOpacity>

@@ -10,7 +10,6 @@ const initialState = {
 
 export const postUserReducer = createReducer(initialState, (builder) =>{
     builder.addCase(postUserRequest.fulfilled, (state, action) =>{
-        console.log(action.payload, "reducer fulfilled");
         state.user = action.payload,
         state.userToken = action.payload.accessToken
     })

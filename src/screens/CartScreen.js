@@ -24,7 +24,9 @@ const CartScreen = () => {
   return (
     <ScrollView style={styles.container}>
       {cartSelector[0]?.products.map((item) => (
-        <CartList key={item.id} products={item} />
+        <View key={item.id} style={{ paddingTop: 16 }}>
+          <CartList products={item} />
+        </View>
       ))}
       <View style={{ paddingTop: 32 }}>
         <View style={{ flexDirection: 'row' }}>
@@ -57,7 +59,7 @@ const CartScreen = () => {
       </View>
 
       <View style={{ paddingBottom: 16 }}>
-        <Button title='Check Out' onClickButton={() => navigation.navigate('Ship To')}/>
+        <Button title='Check Out' onClickButton={() => navigation.navigate('Ship To')} />
       </View>
     </ScrollView>
   );

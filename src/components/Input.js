@@ -6,6 +6,7 @@ export default function Input({
   value,
   iconSource,
   placeholder = "Enter text",
+  // type = "text",
   inputStyle,
   containerStyle,
   iconStyle,
@@ -43,6 +44,7 @@ export default function Input({
         <TextInput
           value={value}
           secureTextEntry={secureTextEntry}
+          // keyboardType={type}
           style={[styles.input, inputStyle]}
           placeholder={placeholder}
           placeholderTextColor="rgb(150, 155, 170)"

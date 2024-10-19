@@ -29,13 +29,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        paddingHorizontal: 10,
-        gap: 20
     },
     button: {
        width: '100%',
        flexDirection: 'row',
        alignItems: 'center',
+       paddingHorizontal: 10,
+       paddingVertical: 10
     },
     text: {
         color: 'rgb(34, 50, 99)',

@@ -66,7 +66,7 @@ const ExploreScreen = () => {
       </View>
 
       <View style={styles.productList}>
-        {products.length > 0 ? (
+        {products.length > 0 && searchText ? (
           <>
             {products.map((product, index) => (
               <TouchableOpacity key={index} style={styles.productItem} onPress={() => navigation.navigate('Product Detail', { productId: product.id })}>

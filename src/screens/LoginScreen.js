@@ -1,17 +1,21 @@
-import { useState, useContext } from 'react';
+import { useState, useCallback } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { MMKVLoader } from 'react-native-mmkv-storage';
+import { postUserRequest } from '../store/actions/users';
 import Input from '../components/Input';
 import Button from '../components/Button';
-import { useSelector } from 'react-redux';
 import Logo from '../assets/icons/logo.svg';
-import { AuthContext } from '../context/AuthContext';
+
+const storage = new MMKVLoader().initialize();
 
 export default function Login() {
-  const { login, isLoading } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false)
   const [form, setForm] = useState({
     username: '',
     password: '',
   });
+  const dispatch = useDispatch();
 
   const handleInputChange = (field, value) => {
     setForm({
@@ -19,6 +23,20 @@ export default function Login() {
       [field]: value.nativeEvent ? value.nativeEvent.text : value,
     });
   };
+
+  const handleLogin = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const {payload} = await dispatch(postUserRequest(form));
+      if (payload.accessToken) {
+        storage.setString("userToken", payload.accessToken);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.error("Login failed:", error);
+    }
+  }, [form]);
 
   const errorMessage = useSelector((state) => state.postUserReducer.error);
 
@@ -58,7 +76,7 @@ export default function Login() {
           title="Sign In"
           iconSource={null}
           isLoading={isLoading}
-          onClickButton={() => { login(form) }}
+          onClickButton={handleLogin}
         />
       </View>
 

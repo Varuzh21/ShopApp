@@ -27,11 +27,10 @@ const ProductDetail = () => {
     return (
         <ScrollView style={styles.container}>
             <View style={styles.imageRow}>
-                {(product.images || []).map((item) => {
-                    const imageUri = item || 'https://example.com/fallback-image.png';
+                {(product.images || []).map((item, index) => {
                     return (
-                        <View key={_.uniqueId()} style={styles.imageContainer}>
-                            <Image source={{ uri: imageUri }} style={styles.image} />
+                        <View key={index} style={styles.imageContainer}>
+                            <Image source={{ uri: item }} style={styles.image} />
                         </View>
                     );
                 })}
@@ -62,7 +61,6 @@ const ProductDetail = () => {
                         product.reviews.map((review) => (
                             <View key={_.uniqueId()} style={styles.reviewItem}>
                                 <View style={styles.reviewerInfo}>
-                                    <Image source={{ uri: review.authorImage }} style={styles.reviewerImage} />
                                     <View>
                                         <Text style={styles.reviewAuthor}>{review.author}</Text>
                                         <StarRating maxRating={5} defaultRating={review.rating} />

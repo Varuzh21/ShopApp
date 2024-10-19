@@ -69,6 +69,10 @@ export default function ExploreScreenNav() {
                         fontWeight: '700',
                         color: 'rgb(34, 50, 99)',
                     },
+                    headerStyle: {
+                        borderBottomWidth: 1,
+                        borderColor: 'rgb(235, 240, 255)',
+                      }
                 }}
             />
         </Stack.Navigator>
