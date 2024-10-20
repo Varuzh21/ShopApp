@@ -23,8 +23,10 @@ const SearchResultsScreen = () => {
         const fetchData = async () => {
             try {
                 setIsLoading(true);
-                dispatch(getSearchProductRequest(searchQuery));
-                dispatch(getProductsByCategoryRequest(name));
+                Promise.all(
+                    dispatch(getSearchProductRequest(searchQuery)),
+                    dispatch(getProductsByCategoryRequest(name))
+                )
                 setIsLoading(false);
             } catch (err) {
                 setError('Failed to load data. Please try again.');
@@ -88,11 +90,11 @@ const SearchResultsScreen = () => {
 
             <View style={{ paddingTop: 18 }}>
                 {searchResults?.products?.length > 0 && (
-                    <ProductsCart products={searchResults.products} />
+                    <ProductsCart products={searchResults.products} handleNavigation={(id) => navigation.navigate('Product Detail', { productId: id })} />
                 )}
 
                 {categoryProducts?.products?.length > 0 && (
-                    <ProductsCart products={categoryProducts.products} />
+                    <ProductsCart products={categoryProducts.products} handleNavigation={(id) => navigation.navigate('Product Detail', { productId: id })} />
                 )}
             </View>
         </ScrollView>

@@ -19,7 +19,6 @@ const ProductsSlider = ({ products = [], horizontal = true, onNavigate }) => {
         );
     };
 
-    // Handle case where products array is empty or undefined
     if (!products || products.length === 0) {
         return (
             <View style={styles.emptyContainer}>
@@ -108,7 +107,7 @@ const styles = StyleSheet.create({
         gap: 8,
     },
     carousel: {
-        paddingVertical: 10, // Adjust the padding as needed
+        paddingVertical: 10,
     },
     emptyContainer: {
         alignItems: 'center',

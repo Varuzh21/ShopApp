@@ -1,4 +1,4 @@
-import {postUserReducer} from './users';
+import {postUserReducer, getUserReducer} from './users';
 import { 
     getProductsReducer,
     getCategoriesReducer,
@@ -10,6 +10,7 @@ import {getAllCartReducer} from './cart'
 
 const reducer = {
     postUserReducer,
+    getUserReducer,
     getProductsReducer,
     getCategoriesReducer,
     getSingleProductReducer,

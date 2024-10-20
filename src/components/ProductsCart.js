@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import StarRating from './StarRating';
 
-const ProductsCart = ({ products = [] }) => {
+const ProductsCart = ({ products = [],  handleNavigation}) => {
     if (!products || products.length === 0) {
         return <Text>No products available.</Text>;
     }
@@ -15,7 +15,7 @@ const ProductsCart = ({ products = [] }) => {
 
                     return (
                         <View key={item.id.toString()} style={styles.productContainer}>
-                            <TouchableOpacity style={styles.cart}>
+                            <TouchableOpacity style={styles.cart} onPress={() => handleNavigation(item.id)}>
                                 <View style={styles.iconContainer}>
                                     <Image source={{ uri: item.thumbnail }} style={styles.image} />
                                 </View>

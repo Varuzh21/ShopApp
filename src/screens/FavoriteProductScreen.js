@@ -2,10 +2,12 @@ import { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductsRequest } from '../store/actions/products';
+import { useNavigation } from '@react-navigation/native';
 import ProductsCart from '../components/ProductsCart';
 
 const FavoriteProductScreen = () => {
   const dispatch = useDispatch()
+  const navigation = useNavigation()
 
   useEffect(() => {
     dispatch(getProductsRequest())
@@ -15,7 +17,7 @@ const FavoriteProductScreen = () => {
 
   return (
     <View style={styles.container}>
-      <ProductsCart products={products.products}/>
+      <ProductsCart products={products.products} handleNavigation={(id) => navigation.navigate('Product Detail', { productId: id })}/>
     </View>
   )
 }

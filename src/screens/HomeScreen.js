@@ -89,7 +89,7 @@ export default function HomeScreen() {
       </View>
 
       <View style={{ paddingTop: 16, }}>
-        <ProductsCart products={products.products} />
+        <ProductsCart products={products.products}  handleNavigation={(id) => navigation.navigate('Product Detail', { productId: id })}/>
       </View>
 
     </ScrollView>

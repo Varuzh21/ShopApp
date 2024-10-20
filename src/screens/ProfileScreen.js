@@ -1,16 +1,30 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserRequest } from '../store/actions/users';
+import { MMKVLoader } from 'react-native-mmkv-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+const storage = new MMKVLoader().initialize();
+
 const ProfileScreen = () => {
-    const user = useSelector(state => state.postUserReducer.user) || {};
+    const dispatch = useDispatch()
+    
+    const userToken = storage.getString("userToken");
+   
+    useEffect(() => {
+        (async () => {
+            dispatch(getUserRequest(userToken));
+        })()
+    }, [userToken])
+
+    const user = useSelector((state) => state.getUserReducer.user);
     return (
         <View style={styles.container}>
             <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 24 }}>
                 <View>
-                    <Image source={{ uri: user.image}} style={styles.image}/>
+                    <Image source={{ uri: user.image }} style={styles.image} />
                 </View>
                 <View style={{ gap: 5 }}>
                     <Text style={styles.title}>{user.firstName || 'No Name'}{' '}{user.lastName || ''}</Text>
@@ -70,7 +84,7 @@ const ProfileScreen = () => {
                         </View>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Text style={styles.text2}>077-15-55-75</Text>
+                            <Text style={styles.text2}>{user.phone}</Text>
                             <Icon name='chevron-right' size={25} color="rgb(144, 152, 177)" />
                         </View>
                     </View>

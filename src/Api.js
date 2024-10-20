@@ -10,22 +10,25 @@ class Api {
         return api.post("user/login", form);
     }
     static getCategories() {
-        return api.get("products/categories")
+        return api.get("products/categories");
     }
     static getProducts() {
-        return api.get("products/category/mens-shoes")
+        return api.get("products/category/mens-shoes");
     }
     static getProduct(productId) {
-        return api.get(`products/${productId}`)
+        return api.get(`products/${productId}`);
     }
     static getSearchProduct(search){
-        return api.get(`products/search?q=${search}`)
+        return api.get(`products/search?q=${search}`);
     }
     static getAllCart(){
-        return api.get("carts")
+        return api.get("carts");
     }
     static getProductsByCategory(name) {
-        return api.get(`products/category/${name}`)
+        return api.get(`products/category/${name}`);
+    }
+    static getUser(userToken){
+        return api.get("auth/me", userToken);
     }
 }
 

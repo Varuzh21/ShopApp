@@ -8,7 +8,7 @@ import LoginScreen from '../screens/LoginScreen';
 
 const storage = new MMKVLoader().initialize();
 
-const AppNav = () => {
+const AppNavigator = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [userToken, setUserToken] = useState(null);
 
@@ -42,4 +42,4 @@ const AppNav = () => {
     )
 }
 
-export default AppNav;
+export default AppNavigator;

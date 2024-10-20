@@ -5,6 +5,8 @@ import NotificationScreen from '../screens/NotificationScreen';
 import FavoriteProduct from '../screens/FavoriteProductScreen';
 import ListCategoryScreen from '../screens/ListCategoryScreen';
 import SearchResultsScreen from '../screens/SearchResultsScreen';
+import FilterScreen from '../screens/FilterScreen';
+import ResultScreen from '../screens/ResultScreen';
 
 const Stack = createStackNavigator();
 
@@ -81,6 +83,40 @@ const HomeScreenNav = () => {
                         fontWeight: '700',
                         color: 'rgb(34, 50, 99)',
                     },
+                }}
+            />
+            <Stack.Screen
+                name="Filter"
+                component={FilterScreen}
+                options={{
+                    headerShown: true,
+                    headerTitleStyle: {
+                        fontFamily: 'Poppins',
+                        fontSize: 16,
+                        fontWeight: '700',
+                        color: 'rgb(34, 50, 99)',
+                    },
+                    headerStyle: {
+                        borderBottomWidth: 1,
+                        borderColor: 'rgb(235, 240, 255)',
+                    }
+                }}
+            />
+            <Stack.Screen
+                name="Results"
+                component={ResultScreen}
+                options={{
+                    headerShown: true,
+                    headerTitleStyle: {
+                        fontFamily: 'Poppins',
+                        fontSize: 16,
+                        fontWeight: '700',
+                        color: 'rgb(34, 50, 99)',
+                    },
+                    headerStyle: {
+                        borderBottomWidth: 1,
+                        borderColor: 'rgb(235, 240, 255)',
+                    }
                 }}
             />
         </Stack.Navigator>
