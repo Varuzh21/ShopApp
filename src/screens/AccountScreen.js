@@ -1,31 +1,16 @@
 import { useCallback, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { MMKVLoader } from 'react-native-mmkv-storage';
-import { useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/Feather';
 
-const storage = new MMKVLoader().initialize();
 
-export default function AccountScreen() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [userToken, setUserToken] = useState(null);
+export default function AccountScreen({onLogout}) {
   const navigation = useNavigation();
 
-  const tokenFromStore = useSelector((state) => state.postUserReducer.userToken);
-
-  // setUserToken(tokenFromStore)
   const handleLogout = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      setUserToken(null)
-      storage.removeItem("userToken");
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-      console.error("Logout failed:", error);
-    }
-  }, []);
+    await onLogout();
+
+  }, [onLogout]);
 
   return (
     <View style={styles.container}>

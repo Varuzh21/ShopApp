@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
         paddingBottom: 20,
     },
     imageContainer: {
-        width: 400,
+        width: "100%",
         height: 200,
         marginRight: 10,
         backgroundColor: '#F5F5F5',

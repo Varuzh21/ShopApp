@@ -73,7 +73,7 @@ const ExploreScreen = () => {
                 <Text style={styles.productName}>{product.title}</Text>
               </TouchableOpacity>
             ))}
-            <View style={{ paddingTop: 15 }}>
+            <View style={{ paddingTop: 15, paddingBottom: 15 }}>
               <Button title="See More" onClickButton={() => navigation.navigate('SearchResults', { searchQuery: searchText })} />
             </View>
           </>
@@ -167,7 +167,8 @@ const styles = StyleSheet.create({
     color: 'rgb(34, 50, 99)',
   },
   categoryItem: {
-    margin: '3%',
+    width: "25%",
+    marginBottom: '3%',
     alignItems: 'center',
   },
 });

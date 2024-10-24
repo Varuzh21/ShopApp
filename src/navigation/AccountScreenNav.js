@@ -4,12 +4,12 @@ import ProfileScreen from '../screens/ProfileScreen';
 
 const Stack = createStackNavigator();
 
-export default function AccountScreenNav() {
+export default function AccountScreenNav({onLogout}) {
     return (
         <Stack.Navigator>
             <Stack.Screen
                 name='Account'
-                component={AccountScreen}
+                children={() => <AccountScreen onLogout={onLogout} />}
                 options={{
                     headerShown: true,
                     headerTitleStyle: {

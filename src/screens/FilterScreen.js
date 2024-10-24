@@ -58,7 +58,7 @@ const FilterScreen = () => {
     };
 
     const handleApply = () => {
-        const filteredProducts = products.products.filter((product) => {
+        const filteredProducts = products.filter((product) => {
             const meetsPrice = product.price >= sliderValues[0] && product.price <= sliderValues[1];
             const meetsCondition = selectedCondition ? product.condition === selectedCondition : true;
             const meetsLocation = selectedLocation ? product.location === selectedLocation : true;

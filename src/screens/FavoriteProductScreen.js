@@ -17,7 +17,7 @@ const FavoriteProductScreen = () => {
 
   return (
     <View style={styles.container}>
-      <ProductsCart products={products.products} handleNavigation={(id) => navigation.navigate('Product Detail', { productId: id })}/>
+      <ProductsCart products={products} handleNavigation={(id) => navigation.navigate('Product Detail', { productId: id })}/>
     </View>
   )
 }

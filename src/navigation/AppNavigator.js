@@ -35,9 +35,14 @@ const AppNavigator = () => {
             </View>
         )
     }
+
+    const handleLogout = async () => {
+        await storage.removeItem("userToken");
+        setUserToken(null);
+    };
     return (
         <NavigationContainer>
-            {userToken !== null ? <TabNavigator /> : <LoginScreen />}
+            {userToken !== null ? <TabNavigator onLogout={handleLogout} /> : <LoginScreen />}
         </NavigationContainer>
     )
 }

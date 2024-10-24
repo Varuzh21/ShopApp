@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
 });
 
 
-export default function TabNavigator() {
+export default function TabNavigator({ onLogout }) {
   const cartItemCount = 4;
   return (
     <Tab.Navigator
@@ -123,7 +123,7 @@ export default function TabNavigator() {
       />
       <Tab.Screen
         name="AccountScreenNav"
-        component={AccountScreenNav}
+        children={() => <AccountScreenNav onLogout={onLogout} />} 
         options={{
           tabBarIcon: ({ focused }) => (
             focused ? <Icon name="user" size={24} color="rgb(64, 191, 255)" /> : <Icon name="user" size={24} color="rgb(144, 152, 177)" />

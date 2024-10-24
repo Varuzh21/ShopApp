@@ -67,7 +67,7 @@ export default function HomeScreen() {
         </View>
 
         <View style={{ paddingTop: 12 }}>
-          <ProductsSlider products={products.products} onNavigate={(id) => navigation.navigate('Product Detail', { productId: id })} />
+          <ProductsSlider products={products} onNavigate={(id) => navigation.navigate('Product Detail', { productId: id })} />
         </View>
       </View>
 
@@ -80,7 +80,7 @@ export default function HomeScreen() {
         </View>
 
         <View style={{ paddingTop: 12 }}>
-          <ProductsSlider products={products.products} onNavigate={(id) => navigation.navigate('Product Detail', { productId: id })} />
+          <ProductsSlider products={products} onNavigate={(id) => navigation.navigate('Product Detail', { productId: id })} />
         </View>
       </View>
 
@@ -89,7 +89,7 @@ export default function HomeScreen() {
       </View>
 
       <View style={{ paddingTop: 16, }}>
-        <ProductsCart products={products.products}  handleNavigation={(id) => navigation.navigate('Product Detail', { productId: id })}/>
+        <ProductsCart products={products}  handleNavigation={(id) => navigation.navigate('Product Detail', { productId: id })}/>
       </View>
 
     </ScrollView>
