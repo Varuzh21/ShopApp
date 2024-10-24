@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserRequest } from '../store/actions/users';
 import { MMKVLoader } from 'react-native-mmkv-storage';
@@ -9,22 +8,40 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const storage = new MMKVLoader().initialize();
 
 const ProfileScreen = () => {
+    const [isLoading, setIsLoading] = useState(false)
     const dispatch = useDispatch()
-    
+
     const userToken = storage.getString("userToken");
-   
+
     useEffect(() => {
         (async () => {
-            dispatch(getUserRequest(userToken));
+            try {
+                setIsLoading(true)
+                dispatch(getUserRequest(userToken));
+                setIsLoading(false)
+            }catch (error) {
+                setIsLoading(false)
+                console.log(error);
+            }
         })()
     }, [userToken])
+
+    if(isLoading){
+        return (
+          <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+              <ActivityIndicator size="large" />
+          </View>
+        )
+    }
 
     const user = useSelector((state) => state.getUserReducer.user);
     return (
         <View style={styles.container}>
             <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 24 }}>
                 <View>
-                    <Image source={{ uri: user.image }} style={styles.image} />
+                    {user.image ? (
+                      <Image source={{ uri: user.image }} style={styles.image} />
+                    ) : null }
                 </View>
                 <View style={{ gap: 5 }}>
                     <Text style={styles.title}>{user.firstName || 'No Name'}{' '}{user.lastName || ''}</Text>

@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigation } from '@react-navigation/native'; 
+import { useNavigation } from '@react-navigation/native';
 import { getCategoriesRequest } from '../store/actions/products';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import _ from 'lodash';
 
 const CategoriesList = () => {
   const dispatch = useDispatch();
@@ -17,15 +16,15 @@ const CategoriesList = () => {
   const categories = useSelector((state) => state.getCategoriesReducer.category);
 
   const iconMap = {
-    beauty: 'face', 
-    fragrances: 'local-florist', 
-    furniture: 'chair', 
-    groceries: 'local-grocery-store', 
-    laptops: 'laptop', 
-    motorcycle: 'two-wheeler', 
-    smartphones: 'smartphone', 
+    beauty: 'face',
+    fragrances: 'local-florist',
+    furniture: 'chair',
+    groceries: 'local-grocery-store',
+    laptops: 'laptop',
+    motorcycle: 'two-wheeler',
+    smartphones: 'smartphone',
     sunglasses: 'remove-red-eye',
-    tablets: 'tablet', 
+    tablets: 'tablet',
     tops: 'style',
     vehicle: 'commute',
   };

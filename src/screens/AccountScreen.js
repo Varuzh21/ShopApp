@@ -7,11 +7,7 @@ import Icon from 'react-native-vector-icons/Feather';
 export default function AccountScreen({onLogout}) {
   const navigation = useNavigation();
 
-  const handleLogout = useCallback(async () => {
-    await onLogout();
-
-  }, [onLogout]);
-
+ 
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Profile')}>
@@ -19,12 +15,12 @@ export default function AccountScreen({onLogout}) {
         <Text style={styles.text}>Profile</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Order')}>
         <Icon name='shopping-bag' size={25} color="rgb(64, 191, 255)" />
         <Text style={styles.text}>Order</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Address')}>
         <Icon name='map-pin' size={25} color="rgb(64, 191, 255)" />
         <Text style={styles.text}>Address</Text>
       </TouchableOpacity>
@@ -34,7 +30,7 @@ export default function AccountScreen({onLogout}) {
         <Text style={styles.text}>Payment</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={handleLogout}>
+      <TouchableOpacity style={styles.button} onPress={() => onLogout()}>
         <Icon name='log-out' size={25} color="rgb(64, 191, 255)" />
         <Text style={styles.text}>Logout</Text>
       </TouchableOpacity>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import GoogleIcon from '../assets/icons/google.svg';
 import FacebookIcon from '../assets/icons/facebook.svg';

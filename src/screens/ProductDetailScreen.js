@@ -1,16 +1,19 @@
 import { useEffect } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
 import { getSingleProductRequest, getProductsRequest } from '../store/actions/products';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
 import StarRating from '../components/StarRating';
 import ProductsSlider from '../components/ProductsSlider';
 import Button from '../components/Button';
+import User from '../assets/icons/user.svg'
 import _ from 'lodash';
 
 const ProductDetail = () => {
     const route = useRoute();
     const dispatch = useDispatch();
+    const navigation = useNavigation();
     const { productId } = route.params;
 
     useEffect(() => {
@@ -23,6 +26,7 @@ const ProductDetail = () => {
 
     const product = useSelector((state) => state.getSingleProductReducer.product) || [];
     const products = useSelector((state) => state.getProductsReducer.products) || [];
+    const review = product?.reviews && product.reviews.length > 0 ? product.reviews[0] : null;
 
     return (
         <ScrollView style={styles.container}>
@@ -46,7 +50,7 @@ const ProductDetail = () => {
             <View style={styles.reviewSection}>
                 <View style={styles.reviewHeader}>
                     <Text style={styles.reviewTitle}>Review Product</Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate("Review Product", {productId: productId})}>
                         <Text style={styles.butText}>See More</Text>
                     </TouchableOpacity>
                 </View>
@@ -57,18 +61,24 @@ const ProductDetail = () => {
                 </View>
 
                 <View style={styles.reviewList}>
-                    {Array.isArray(product.reviews) && product.reviews.length > 0 ? (
-                        product.reviews.map((review) => (
-                            <View key={_.uniqueId()} style={styles.reviewItem}>
-                                <View style={styles.reviewerInfo}>
-                                    <View>
-                                        <Text style={styles.reviewAuthor}>{review.author}</Text>
-                                        <StarRating maxRating={5} defaultRating={review.rating} />
-                                    </View>
+                    {review ? (
+                        <View style={styles.reviewItem}>
+                            <View style={styles.reviewerInfo}>
+                                <User style={styles.userIcon} />
+                                <View style={{ gap: 4 }}>
+                                    <Text style={styles.reviewAuthor}>{review.reviewerName}</Text>
+                                    <StarRating maxRating={5} defaultRating={review.rating} />
                                 </View>
-                                <Text style={styles.reviewText}>{review.comment}</Text>
                             </View>
-                        ))
+                            <Text style={styles.reviewText}>
+                                {review.comment} {" "}
+                                air max are always very comfortable fit,
+                                clean and just perfect in every way.
+                                just the box was too small and scrunched the sneakers up
+                                a little bit, not sure if the box was always this small but
+                                the 90s are and will always be one of my favorites.
+                            </Text>
+                        </View>
                     ) : (
                         <Text style={styles.noReviewsText}>No reviews available</Text>
                     )}
@@ -79,7 +89,7 @@ const ProductDetail = () => {
                 <View style={{ paddingBottom: 12 }}>
                     <Text style={styles.reviewTitle}>You Might Also Like</Text>
                 </View>
-                <ProductsSlider products={products.products} />
+                <ProductsSlider products={products} />
             </View>
 
             <View style={{ paddingVertical: 21 }}>
@@ -173,6 +183,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 8,
+        paddingBottom: 20
     },
     reviewerImage: {
         width: 50,
@@ -188,6 +199,9 @@ const styles = StyleSheet.create({
     },
     reviewText: {
         color: 'rgb(144, 152, 177)',
+        fontFamily: 'Poppins',
+        fontWeight: '400',
+        fontSize: 12,
         marginTop: 8,
     },
     noReviewsText: {

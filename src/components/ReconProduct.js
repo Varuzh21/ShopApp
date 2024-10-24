@@ -20,7 +20,6 @@ export default ReconProduct
 const styles = StyleSheet.create({
   imageBackground: {
     width: '100%',
-    height: "auto",
     height: 206,
   },
   textContainer: {

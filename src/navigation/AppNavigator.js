@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { View, ActivityIndicator } from "react-native";
-import { NavigationContainer } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
-import { MMKVLoader } from 'react-native-mmkv-storage';
+import {useEffect, useState} from 'react';
+import {ActivityIndicator, View} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
+import {MMKVLoader} from 'react-native-mmkv-storage';
 import TabNavigator from './TabNavigator';
 import LoginScreen from '../screens/LoginScreen';
 
@@ -17,10 +17,12 @@ const AppNavigator = () => {
     useEffect(() => {
         (async () => {
             try {
+                setIsLoading(true)
                 const storedToken = storage.getString("userToken");
                 if (storedToken) {
                     setUserToken(storedToken);
                 }
+                setIsLoading(false)
             } catch (error) {
                 setIsLoading(false);
                 console.error("Failed to load token from storage:", error);
@@ -37,7 +39,7 @@ const AppNavigator = () => {
     }
 
     const handleLogout = async () => {
-        await storage.removeItem("userToken");
+        storage.removeItem("userToken");
         setUserToken(null);
     };
     return (
