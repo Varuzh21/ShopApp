@@ -57,6 +57,7 @@ const OrderDetailsScreen = () => {
                 <Text style={styles.sectionTitle}>Product</Text>
                 {products.map((product) => (
                     <ProductItem
+                        key={product.id}
                         name={product.title}
                         price={product.price - (product.price * product.discountPercentage / 100).toFixed(3)}
                         imageUrl={product.thumbnail}
@@ -133,12 +134,13 @@ const styles = StyleSheet.create({
     stepParent: {
         width: "13%",
         flexDirection: "column",
-        alignItems: "center"
+        alignItems: "center",
+        justifyContent: "center"
     },
     step: {
         color: "rgb(144, 152, 177)",
         fontFamily: "Poppins",
-        fontSize: 12,
+        fontSize: 11,
         fontWeight: '400',
     },
     productList: {

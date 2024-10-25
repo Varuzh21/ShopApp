@@ -1,14 +1,16 @@
-import { useEffect } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Dimensions, Image } from 'react-native';
 import { getSingleProductRequest, getProductsRequest } from '../store/actions/products';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
+import Carousel from 'react-native-reanimated-carousel';
 import StarRating from '../components/StarRating';
 import ProductsSlider from '../components/ProductsSlider';
 import Button from '../components/Button';
-import User from '../assets/icons/user.svg'
-import _ from 'lodash';
+import User from '../assets/icons/user.svg';
+
+const width = Dimensions.get('window').width;
 
 const ProductDetail = () => {
     const route = useRoute();
@@ -30,15 +32,19 @@ const ProductDetail = () => {
 
     return (
         <ScrollView style={styles.container}>
-            <View style={styles.imageRow}>
-                {(product.images || []).map((item, index) => {
-                    return (
-                        <View key={index} style={styles.imageContainer}>
-                            <Image source={{ uri: item }} style={styles.image} />
-                        </View>
-                    );
-                })}
-            </View>
+            <Carousel
+                loop
+                width={width}
+                height={300}
+                autoPlay={false}
+                data={product.images || []}
+                scrollAnimationDuration={1000}
+                renderItem={({ item, index }) => (
+                    <View key={index} style={styles.imageContainer}>
+                        <Image source={{ uri: item }} style={styles.image} />
+                    </View>
+                )}
+            />
 
             <View style={styles.productDetails}>
                 <Text style={styles.title}>{product.title || 'No title available'}</Text>
@@ -50,7 +56,7 @@ const ProductDetail = () => {
             <View style={styles.reviewSection}>
                 <View style={styles.reviewHeader}>
                     <Text style={styles.reviewTitle}>Review Product</Text>
-                    <TouchableOpacity onPress={() => navigation.navigate("Review Product", {productId: productId})}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Review Product", { productId })}>
                         <Text style={styles.butText}>See More</Text>
                     </TouchableOpacity>
                 </View>
@@ -107,15 +113,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         paddingHorizontal: 10,
     },
-    imageRow: {
-        flexDirection: 'row',
-        paddingBottom: 20,
-    },
     imageContainer: {
-        width: "100%",
-        height: 200,
-        marginRight: 10,
+        width: '100%',
+        height: 300,
         backgroundColor: '#F5F5F5',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     image: {
         width: '100%',
@@ -161,7 +164,7 @@ const styles = StyleSheet.create({
     ratingWithCount: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginVertical: 16
+        marginVertical: 16,
     },
     ratingText: {
         marginLeft: 8,
@@ -183,13 +186,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 8,
-        paddingBottom: 20
-    },
-    reviewerImage: {
-        width: 50,
-        height: 50,
-        borderRadius: 25,
-        backgroundColor: '#F5F5F5',
+        paddingBottom: 20,
     },
     reviewAuthor: {
         color: 'rgb(34, 50, 99)',
