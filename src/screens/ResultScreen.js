@@ -31,9 +31,10 @@ const styles = StyleSheet.create({
         paddingVertical: 20
     },
     header: {
-        fontSize: 18,
+        color: "rgb(34, 50, 99)",
+        fontSize: 16,
         fontWeight: '700',
-        marginBottom: 10
+        marginBottom: 16
     },
     productItem: {
         padding: 10,

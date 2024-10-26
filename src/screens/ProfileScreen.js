@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import { getUserRequest } from '../store/actions/users';
 import { MMKVLoader } from 'react-native-mmkv-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -10,6 +11,7 @@ const storage = new MMKVLoader().initialize();
 const ProfileScreen = () => {
     const [isLoading, setIsLoading] = useState(false)
     const dispatch = useDispatch()
+    const navigation = useNavigation();
 
     const userToken = storage.getString("userToken");
 
@@ -51,7 +53,7 @@ const ProfileScreen = () => {
 
             <View style={{ paddingTop: 45 }}>
 
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Gender', {gender: user.gender})}>
                     <View style={styles.buttonContent}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Icon name='gender-female' size={25} color="rgb(64, 191, 255)" />

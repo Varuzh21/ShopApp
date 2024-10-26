@@ -91,21 +91,24 @@ const FilterScreen = () => {
                     </View>
                 </View>
 
-                <MultiSlider
-                    values={sliderValues}
-                    onValuesChange={handleSliderChange}
-                    min={0}
-                    max={10000}
-                    step={100}
-                    snapped
-                    allowOverlap={false}
-                    containerStyle={styles.sliderContainer}
-                    selectedStyle={styles.selectedTrack}
-                    unselectedStyle={styles.unselectedTrack}
-                    trackStyle={styles.track}
-                    sliderLength={340}
-                    markerStyle={styles.marker}
-                />
+                <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
+                    <MultiSlider
+                        values={sliderValues}
+                        onValuesChange={handleSliderChange}
+                        min={0}
+                        max={10000}
+                        step={100}
+                        snapped
+                        allowOverlap={false}
+                        containerStyle={styles.sliderContainer}
+                        selectedStyle={styles.selectedTrack}
+                        unselectedStyle={styles.unselectedTrack}
+                        trackStyle={styles.track}
+                        sliderLength={360}
+                        markerStyle={styles.marker}
+                    />
+                </View>
+
             </View>
 
             <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-between' }}>
